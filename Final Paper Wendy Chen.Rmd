@@ -1,0 +1,1453 @@
+---
+title             : "Final Project Report"
+shorttitle        : "Gender Differences in Successful NIH Grant Funding (2019) in General Medical Sciences"
+
+author: 
+  - name          : "Wen-Chiao (Wendy) Chen"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "326 Market St., Harrisburg, PA 17101"
+    email         : "wchen16@my.harrisburgu.edu"
+
+affiliation:
+  - id            : "1"
+    institution   : "Harrisburg University of Science and Technology"
+
+authornote: |
+  Wen-Chiao (Wendy) Chen is a graduate degree student enrolled at Course “Applied Project in Analytics” (ANLY 699-91-O-2020/ Late Spring) in the Master of Science in Analytics at Harrisburg University, estimated May 2020 graduation class. 
+
+abstract: |
+  This Final Project report is an assignment submission due on June 19, 2020, including an Introduction section, a Literature Review section, a Data Description and Methodology section, a Results section, a Conclusion, and a Reference section in APA style (Note: NIH- National Institute of Health). 
+  
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "gender, NIH funding, gender disparity, NIH funding gender disparity, academic promotion, NIH RePORTER, National of General Medical Sciences Funding, General Medical Sciences"
+wordcount         : ""
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : no
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+setwd("/Volumes/WENDYUSB/HU/2020 Late Spring/Applied Project ANLY699/Final Paper")
+library("papaja")
+library("knitr")
+library("ggplot2")
+library("png")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Introduction  
+
+The topic of this research is regarding Gender Differences in Successful NIH Grant Funding (2019) in General Medical Sciences. The objective of this research is to evaluate the gender differences among the grantees and discuss potential reasons contributing to this phenomenon. The analysis combines qualitative and quantitative data analysis using data from the NIH Research Portfolio Online Reporting Tool - RePorter system and the Scopus database. Participants will be an entire pool of Principal Investigators who have been awarded a competitive grant funding from National Institute of General Medical Sciences (NIGMS) on the award activity code level 'R01', which is significant research activity both in terms of the research scope and depth during the fiscal year 2019.  
+
+# Literature Review  
+
+In this proposal, a literature review was conducted and documented for the topic of "Gender Disparity in the STEM Field, Focusing on NIH Grant Application Results". (Note: STEM stands for Science, Technology, Engineering, and Mathematics; NIH refers to the National Institute of Health.) The author aimed to present a logically argued case founded on a comprehensive understanding of the current state of knowledge about the topic. All the literature reviewed in this paper was high-quality peer-reviewed articles.  
+
+The research and literature regarding gender disparity were rich and extensive. The study about the gender gap in the Science, Technology, Engineering, and Mathematics (STEM) field was also highly recognized in various research publications. For example, it has been identified that the gender disparity exists in various academic fields such as ophthalmology, plastic surgery, gynecologic oncology, and surgeons' worlds. The below paragraphs reviewed the current situation in these fields.  
+
+In the academic ophthalmology field, @lopez2014gender mentioned that women in academic ophthalmology continue to be underrepresented, especially among senior faculty, given the fact that women surpass men in scholarly productivity during the later stages of their research careers. More specifically, the research finding came from the analysis result that showed male ophthalmologists had higher h-indices (publication ranking) among those with less than 10 years of publication experience, whereas their female counterparts had a scholarly impact equivalent to or greater than that of the male in the later stage of their careers. For example, this paper pointed out that among assistance professors, male ophthalmologists had higher h-indices than their female counterparts. However, this research did not show statistical significance in other professional range groups. Therefore, one cannot overlook the fact that low scholarly impact during a female ophthalmologist's early career may impact or impede academic advancement in the later stages.  
+
+In the academic plastic surgery field, research conducted by @paik2014research supported a similar result in the academic plastic surgery area. It was indicated that a significant difference is shown in overall mean h-index by gender, as the mean scores for a male plastic surgeon are 9.0, higher than the 6.0 for that of a female. In this research, it affirmed that the h-index is an objective and reliable index to quantify academic productivity in plastic surgery. H-index evaluates not just the quantity but also the quality of a researcher's publication output. With that being said, the h-index of the researcher increased with the academic rank rises, according to the research.  
+
+Similarly, @hill2015gender performed research in the same scope in the academic gynecologic oncology department. The paper agreed that there was a gender difference in scholarly productivity in the academic gynecologic oncology field.  It was pointed out that among five hundred seven faculties in such fields across the United States (U.S.), men had significantly higher median h-indices than women, which was 16 versus 8, respectively. Furthermore, women were more likely to be appointed junior academic rank than senior rank, as there are 63% of assistant professors being females, comparing to only 20% of full professors are female. Furthermore, in this research, more findings across the academic life span were revealed; the gender difference was more severe in the early stage of the research career, as in assistance professor level than in the later stage. In other words, there were no apparent gender difference at the later stage of the career as females' productivity equals their male counterparts.  
+
+In another study conducted by @mueller2016gender, the gender disparity phenomenon in the academic surgeon field was discussed and was affirmed to be true. It was pointed out that female academic surgeons had less productivity than their male counterparts in longitudinal research as long as 60 years. The gender disparity was more significant in the junior ranks rather than the senior. However, to show a little hope, the youngest cohort, those who graduated in the 2000s, appeared to avoid the gender divide.  
+
+Furthermore, @eloy2014regional not only confirmed the gender gap in career promotion and scholarly productivity in the field of otolaryngology but also identified that there exist regional differences. The gender disparities existed most notably in the Northeast of the United States. That is, among geographic subdivisions, female representation at senior ranks was found the lowest in the Mid-Atlantic, New England, and West South Central regions. In this study, h-index was taken into account when analyzing the candidates' productivity and performance (note: h-index refers to a metric that measures the productivity and the citation impact of the publications of a scholar.). This was a direct index that can be used to rank a scientist's productivity and hence being referenced more often in the literature review below.   
+In summary, the academic world was aware of the proven female underrepresentation in areas such as ophthalmology, plastic surgery, gynecologic oncology, and surgeons' fields.  
+
+After reviewing literature regarding gender disparity in various research fields and in different regions, time-series analysis became necessary in order for a researcher to understand whether the gender gap exists in all career stages, or in specific career time-frame. @guelich2002gender published research finding that the gender gap can be identified in the researcher's early career. They pointed out three trends among US medical students that presage a further decline in the physician-scientist pipeline. One of the trends was negative after-effects of the medical school experience for women. In the researcher's early career, self-evaluations regarding whether the workspace friendliness and lifestyle were taken into considerations. @beede2011women identified three contributing factors to females' disproportionately low percentage in STEM fields: (1) a lack of female role models, (2) gender stereotyping, and (3) less family-friendly flexibility. When an individual does not see a promising future in the above three aspects, early drop-out from such a career is not unheard of.  
+
+Across a STEM researcher's career, competing for grant fundings stands for significant effort outputs. During a scientist's time in higher education no matter in undergraduate or graduate studies, research stipends from all sources are what account for an undeniable portion of their financial income. Among all, grant fundings from the National Institute of Health (NIH) are seen as the gold award for a researcher. The below section reviews the gender representation in NIH fundings and examines how gender disparity issue is being recognized and being addressed.  
+
+According to the data analysis result from @waisbren2008gender, women researchers were awarded significantly fewer grant fundings than men at the ranks of instructor and associate professor. Moreover, @hosek2005gender revealed that "women applicants are 11 percent less likely to get any award and, if they do get an award, the amount is almost 30 percent smaller." On the same line, @eloy2013gender identified that male researchers have higher NIH funding levels than their counterparts, in terms of funding activity codes, for two groups of researchers, one is at the rank of assistant professor and the other is people whose research experience ranging between 10 and 20 years. This argument echos the research result revealed by the same groups of researchers- @eloy2014regional.  
+
+Further focusing on time-series analysis, at any given career point, female's funding rate of R01 activity award is lower than male's, according to @jagsi2009sex. (Note: R01 activity award refers to the most dominant Research Project Grant category that averages the highest in funding amount.) On the other side, @pohlhaus2011sex conducted a longitudinal analysis of NIH granting histories and determined that men with previous experiences as NIH grantees had higher funding rates when women at similar career points. In other words, once a researcher is awarded an NIH grant, the number shows the researcher is more likely to receive second awards or more later on, and this phenomenon is more significant in males than in females.  
+
+With that being said, it became necessary to examine the breakdown process of how to win an NIH grant award starting from the application preparation, review, to renewing the award, to reveal more factors in the gender disparity phenomenon. After submitting an application and before being awarded an NIH grant, a lengthy and careful review process is conducted on each grant application.  
+
+@kaatz2016analysis concluded that the review scores of NIH renewal grant applications are significantly lower for females than for males. To be noted, to review grants, the original grant application must be awarded first. That is, even after a grant has been successfully awarded, no matter the grant was from a female or a male Principal Investigator, the renewal grant application is still graded lower for females, comparing to male's results.   
+
+@witteman2019gender asserted that gender gaps observed in grant funding can be attributable to less favorable assessment criteria of female as Principal Investigators, instead of to their less quality of research. In other words, female encounters disadvantages due to gender stereotyping when being reviewed and graded review scores in the grant application process. In another research conducted by @kaatz2016analysis, it has been pointed out that those male researchers not only submit more grant applications than females but also receive higher review scores on average for their applications. As a result, it is not hard to imagine that there are more male researchers being awarded grants than females, resonating with the previous points. What is more, @magua2017female provided more contextual details by mentioning males investigators are referred to as "leaders" and "pioneers" in their "fields" with “highly innovative” and “highly significant research.” By comparison, females are more categorized as having “expertise” and working in “excellent” environments. Such text analysis is valuable since it gives more textual reasonings behind the numbers. To read more carefully, the word choice by males are more high-level versus the female's writing seem to be more delicate and more defined. As it shows, different usage of words and adoption of writing methods in grant applications reveals how an individual views him/herself differently that can be traced back to socio-economic backgrounds and expectations.  
+
+@li2011gender revealed that female Principal Investigators receive on average a half percentile worse review ranking results than their male counterparts who are with similar qualifications and similar future grant performance. That is to say, when trying to compare apple to apple, orange to orange, there still exists review score difference based on the gender of the applicant.  
+
+@witteman2018female determined that although female grant applicants are equally successful when peer reviewers access the "application proposal", not when they access the "scientist". That is to say, although a reviewer may be able to grade application proposals fairly, it does not mean that they can view the performance of a scientist without the lens of gender stereotyping and expectations. As a result, when reviewers assess the capability of a grant applicant, gender stereotyping is still involved, which ultimately affects the review scores.  
+
+NIH recently adopted a blinded review experience program, attempting to avoid gender inequality in the review process and results. Blind review, that anonymizes the applicant's name and gender, became a popular approach to reducing bias and increasing diversity in the selection of talented researchers and research projects; however, the effectiveness is not yet fully understood. The reason is that despite blinded review in place for certain application reviews, female applicants receive significantly lower scores, that are hard to be justified, according to @kolev2019blinded. More specifically, @kolev2019blinded discovered strong gender differences in the usage of 'broad and narrow words', suggesting that the different styles of communication play a key role in the gender score gap. The researcher further confirmed that gender differences revealed in writing and communication are leading to gender disparities in the evaluation and review results. 
+
+In terms of the remedies taken to address the gender disparity issues, @mueller2016gender mentioned that one pathway is to create faculty development programs that support practical expertise, including skills workshops for research grant writing and leadership courses. In addition, increased transparency in the promotion program can improve the recruitment of talented faculty, especially females into academic medicine. Finally, mentoring programs are not neglectable, which shows positive effects on career development and productivity in various arenas.  
+
+# Methodology  
+
+In this section, the methodology of the research were reviewed and documented. To restate the research problem, this paper examined if gender disparity exists in the NIH grant application process, and if it does, what is the possible future projection of this trend. The underlying assumptions underpinning the study are listed as below.  
+
+Assumption 1: National Institute of Health (NIH) Grant application success percentage between female and male Principal Investigators has bigger difference in their early stage of the research career than in the later stage. And the success percentage gap exists in all funding activity codes.   
+
+Assumption 2: Male Principal Investigators has higher National Institute of Health (NIH) Grant application funding (monetary value per budget year) than their female counterparts. The funding difference between two genders is greater in their early stage of the research career than in the later stage.  
+
+Thus, the research contained statistical data analysis results, such as from methodologies of Exploratory Data Anaylsis (EDA), Missing Data and Outliers Analysis, Regression Analysis, Factor Analysis, and Cluster Analysis. Below is the methodology review on aspects of participants, procedures, measures, data description, and analysis.  
+
+## Participants   
+
+Participants will be an entire pool of Principal Investigators who have been awarded grant fundings from the National Institute of General Medical Sciences (NIGMS, one of the Institute and Centers at NIH) on the award activity code level 'R01', which is significant research activity both in terms of the research scope and depth, during fiscal year 2019. The Principal Investigators are not be limited to the United States' citizens and may be foreign nationals. The organizations or institutions where the Principal Investigators are employed and/or conduct their research are not restricted to the United States of America soil.  
+
+There is no limitation to research subjects under the R01 research code. The spectrum to all the Principal Investigator's research may range from Medicine, Biomedical Engineering, to Sociology. Given the wide range of research topics sponsored by NIH, the core does not escape from NIH's mission - "Turning Discovery into Health".   
+
+The Principal Investigator of a grant award refers to the main Principal Investigator, not the co-Principal Investigator or consultant. (Note: NIH adopts a multi-Principal Investigator model which allows a research grant lists multiple people as the Principal Investigator. However, even in the multi-Principal Investigator model, there must be one and only one main Principal Investigator listed on the grant.)   
+
+## Procedure  
+
+The procedure to gather the required data for analysis is to retrieve the publicly available data from the NIH's website and database. There will not be a sampling of the data.  
+
+## Measures  
+
+The NIH’s Research Portfolio Online Reporting Tool - RePorter (https://projectreporter.nih.gov/reporter.cfm), a publicly available database, was used to search for grants awarded to R01 activity code. This online database displays the last 10 years of grant information; anything that is 11 years and older is archived and is not available to the public. This research paper aims to gather data for the last 10 years; therefore, the RePort database provides enough historical data for research. The 56,273 NIH awards included were arranged by grant type and size of the award.  
+
+An online search of academic departmental websites was conducted to determine the academic rank and terminal degree(s) of the principal investigator for each grant. NIH funding data were examined both by (1) funding per NIH award and (2) total NIH funding per individual. Several individuals had received multiple grants during this time period, and their total NIH funding was the sum of their individual NIH awards.  
+
+The gender of each Principal Investigator was determined using the Python NLTK package. For names that do not have clear gender identifiers, individual online searches were conducted by visiting the Principal Investigator's lab webpage or organization website. The classification of gender to each Principal Investigator is determined by the social and name implication of the person, not true to their self-identified gender. For 22 people whose gender was not able to be reliably determined, individual reach-outs to the researcher's organization or departments were contacted for such information.  
+
+The Scopus database (www.scopus.com) was used to determine each Principal Investigator’s publication range and h-index. The h-index measures the productivity and the citation impact of the publications of a scientist or scholar; hence, it is a direct numeric identification of a researcher's academic impact. The h-index result from the Scopus database was downloaded separately and was combined to the result downloaded from the RePort database.  
+
+All data was collected in February 2020.  
+
+## Data Description  
+
+```{r data-description, message=FALSE, warning=FALSE}
+# Import Data 
+library(readr)
+data <- read_csv("RePORTER_PRJ_C_FY2019.csv", 
+                 col_types = cols(ACTIVITY = col_character(), 
+                                  ADMINISTERING_IC = col_character(), 
+                                  APPLICATION_TYPE = col_integer(), 
+                                  ARRA_FUNDED = col_logical(), AWARD_NOTICE_DATE = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_END = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_START = col_date(format = "%m/%d/%Y"), 
+                                  CFDA_CODE = col_integer(), DIRECT_COST_AMT = col_number(), 
+                                  FY = col_integer(), INDIRECT_COST_AMT = col_number(), 
+                                  PROJECT_END = col_date(format = "%m/%d/%Y"), 
+                                  PROJECT_START = col_date(format = "%m/%d/%Y"), 
+                                  SUFFIX = col_character(), SUPPORT_YEAR = col_integer(), 
+                                  TOTAL_COST = col_number(), TOTAL_COST_SUB_PROJECT = col_number()))
+# Data Cleaning =====
+# Remove grants that don't have PI assigned to it.
+library(dplyr)
+data = data %>% filter(data$FUNDING_MECHANISM != "INTRAMURAL RESEARCH") #To exclude 3065 Intramural Research grants
+data = data %>% filter(data$FUNDING_MECHANISM != "SBIR/STTR Contracts") #To exclude 94 SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "Non SBIR/STTR Contracts") #To exclude 1,239 non SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "CONSTRUCTION GRANTS") #To exclude 14 Construction Grants
+data = data %>% filter(data$FUNDING_MECHANISM != "INTERAGENCY AGREEMENTS") #To exclude 123 Interagency Agreements
+
+# Import Data that indicates gender info
+library(readr)
+genderdata <- read_csv("genderdata.csv", 
+    col_types = cols(FIRST_NAME = col_skip(), 
+        LAST_NAME = col_skip(), MI_NAME = col_skip(), 
+        PERSON_ID = col_skip(), ROLE_PERSON_ID = col_skip()))
+#View(genderdata)
+
+# Combine two datasets together
+data_gender = merge(data, genderdata, by.x = "APPLICATION_ID", by.y = "APPL_ID")
+#View(data_gender)
+
+dataR01 = data_gender %>% filter(data_gender$ACTIVITY == 'R01')
+dataR01GM = dataR01 %>% 
+  filter(dataR01$ADMINISTERING_IC == "GM") # %>%
+  # filter(!is.na(dataR01$GENDER_CODE))
+
+# Data Manipulation -----------------------------------
+# Factorize Data =====
+#data$FUNDING_MECHANISM = as.factor(data$FUNDING_MECHANISM)
+#data$ORG_COUNTRY = as.factor(data$ORG_COUNTRY)
+#data$ACTIVITY = as.factor(data$ACTIVITY)
+#data_gender$GENDER_CODE = as.factor(data_gender$GENDER_CODE)
+
+nrow = nrow(dataR01GM)
+ncol = ncol(dataR01GM)
+
+library(naniar)
+missingdata = miss_var_summary(dataR01GM)
+colnames(missingdata) = c("Variable", "Count", "Percent")
+library(tidyverse) 
+missingdata = missingdata %>% filter(missingdata$Count > 0) 
+
+nrow_missingdata = nrow(missingdata)
+```
+
+The dataset "dataR01GM' has `r nrow` observations of `r ncol` variables. It has all the competitive NIH grants awarded to the National Institute of General Medical Sciences in the activity code 'R01' (major resarch code).  
+
+There are `r nrow_missingdata` rows out of `r nrow` observations that reported at least one missing data. There are two types of missing data: NA and null. The missing data in this dataset are all NA, instead of null. Below is more information regarding how missing data was processed in the research.  
+
+### Missing Data  
+
+The are four columns that have 100% of missing data. In other words, the column does not have any data under it. They are **'ARRA_FUNDED'**, **'NIH Spending CATS'**, **'Subproject ID'**, and **'Total Cost Sub Project'**.   
+
+There are two columns that have over 20% of missing data. **'Suffix'** (the suffix of the grant number) reports 82% of misssing data; **'MI name'** (middle name of the principal investigator) has 41% of missing data. 
+
+There are eight columns that report missing data but is less than 15%. They are:  
+- **'ED INST Type'** (Generic name for the grouping of components across an institution who has applied for or receives NIH funding. The official name as used by NIH is Major Component Combining Name.)  
+- **'Org Dept'** (Organization department name)  
+- **'INDIRECT COST AMT'** (Indirect Cost Amount)   
+- **'STUDY SECTION'** (Grant reivew study section number)  
+- **'STUDY SECTION NAME'** (Grant reivew study section name)   
+- **'PHR'** (Submitted as part of a grant application, this statement articulates a project's potential to improve public health.)   
+- **'GENDER CODE'** (The gender of the Principal Investigator.)  
+- **'PROJECT TERMS'** (For projects funded in fiscal year 2008 and later, these are concepts that are mined from the project's title, abstract, and specific aims using an automated text mining tool.)  
+- **'ORG DISTRICT'** (Congressional District code of the institute)  
+
+To perform Quantitative Analysis in R, the following steps have been performed to prepare the data.  
+- The four variables that have zero data underneath it had been removed from the dataset (**'ARRA_FUNDED'**, **'NIH Spending CATS'**, **'Subproject ID'**, and **'Total Cost Sub Project'**).  
+- Removed **'Suffix'** and **'MI name'** columns, as it contained more than 80% of NA values and do not considered as essential variables.  
+- Removed **'ED INST Type'**, **'Org Dept'**, **'INDIRECT COST AMT'**, **'STUDY SECTION'**, **'STUDY SECTION NAME'**, **'PHR'**, **'PROJECT TERMS'**, and **'ORG DISTRICT'** columns.  
+- Removed observations that have NA values in the **'Gender Code'** column.   
+### Data Imputation Strategy  
+  
+There are several imputatin methods available: list-wise deletion, pair-wise deletion, mean imputation, regression imputation. The variable in question is 'Gender Code'. In the NIH's grant management system (eRA Commons), the gender code is self-identified. There are three options on the form, Male, Female, or Unidentified. Therefore, there are several scenarios that I can think of as to the sources of missing gender values.  
+  
+Possible reasons of missing gender code value:  
+1. The grant application was submitted by paper and not electronically, since all applications submitted electronically require a completed personal information including the gender code question at the time of submission, otherwise the application will encounter a hard-stop due to an error on the incomplete personal information.  
+2. The gender code information was removed from the personal information page after the application was submitted.  
+  
+There are several factors taken into consideration when strategizing the imutation plan for Gender variable.  
+A. The variable is missing completely at random (MCAR).  
+B. The percentage of missing among all observations is 0.3%, which is considered faily low.  
+  
+As such, I adopted list-wise deletion strategy on the Gender Code variable.    
+  
+### Data Description After Data Cleaning   
+   
+After data cleaning, there are 3,435 observations with 13 variables. The list of variables are shown as below. More detailed descriptions (Data Dictionary) of each variable can be referenced in the Appendix A. Data Dictionary.  
+  
+Variables: Application_Type, Budget_Start, Budget_End, FOA_Number, Org_Name, PI_ID(s), PI_Name(s), Project_Start, Project_End, Support_Year, Direct_Cost_Amt, Indirect_Cost_Amt, Total_Cost.  
+  
+# Five Analyses and Its Results  
+  
+Several statistical analysis methods were adopted for this research.  
+  
+1. Firstly, Simple Comparative Analysis was conducted. Exploratory Data Analysis was performed and Independent T-test was conducted to compare the mean value to grant funds awarded to male and female (The statistical significance level is set to 0.05 for this test and for the following methodologies.)   
+  
+2. In addition, Exploratory Factor Analysis was conducted to examine the multilinearity of the dataset.  
+  
+3. Furthermore, Cluster Analysis was exercised to discover meaningful groupings of objects in the dataset.  
+  
+4. Additionally, Classification Analysis was used to assign columns into meaningful categories.  
+  
+5. Last but not least, Logistic Regression was utilized to examine the significance effect of each variables contributing to the gender of the Principal Investigator (PI).  
+   
+## Analysis 1 - Exlorative Data Analysis (EDA)  
+   
+```{r message=FALSE, warning=FALSE}
+# Import Data 
+library("papaja")
+library(moments)
+library(readr)
+data <- read_csv("RePORTER_PRJ_C_FY2019.csv", 
+                 col_types = cols(ACTIVITY = col_character(), 
+                                  ADMINISTERING_IC = col_character(), 
+                                  APPLICATION_TYPE = col_integer(), 
+                                  ARRA_FUNDED = col_logical(), AWARD_NOTICE_DATE = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_END = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_START = col_date(format = "%m/%d/%Y"), 
+                                  CFDA_CODE = col_integer(), DIRECT_COST_AMT = col_number(), 
+                                  FY = col_integer(), INDIRECT_COST_AMT = col_number(), 
+                                  PROJECT_END = col_date(format = "%m/%d/%Y"), 
+                                  PROJECT_START = col_date(format = "%m/%d/%Y"), 
+                                  SUFFIX = col_character(), SUPPORT_YEAR = col_integer(), 
+                                  TOTAL_COST = col_number(), TOTAL_COST_SUB_PROJECT = col_number()))
+
+# Import Data that indicates gender info
+library(readr)
+genderdata <- read_csv("genderdata.csv")
+#View(genderdata)
+
+# Combine two datasets together
+data_gender = merge(data, genderdata, by.x = "APPLICATION_ID", by.y = "APPL_ID")
+#View(data_gender)
+
+# Data Manipulation -----------------------------------
+# Factorize Data =====
+data$FUNDING_MECHANISM = as.factor(data$FUNDING_MECHANISM)
+data$ORG_COUNTRY = as.factor(data$ORG_COUNTRY)
+data$ACTIVITY = as.factor(data$ACTIVITY)
+data_gender$GENDER_CODE = as.factor(data_gender$GENDER_CODE)
+
+# Data Cleaning =====
+
+# Remove grants that don't have PI assigned to it.
+library(dplyr)
+data = data %>% filter(data$FUNDING_MECHANISM != "INTRAMURAL RESEARCH") #To exclude 3065 Intramural Research grants
+data = data %>% filter(data$FUNDING_MECHANISM != "SBIR/STTR Contracts") #To exclude 94 SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "Non SBIR/STTR Contracts") #To exclude 1,239 non SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "CONSTRUCTION GRANTS") #To exclude 14 Construction Grants
+data = data %>% filter(data$FUNDING_MECHANISM != "INTERAGENCY AGREEMENTS") #To exclude 123 Interagency Agreements
+
+dataR01 = data_gender %>% filter(data_gender$ACTIVITY == 'R01')
+dataR01GM = dataR01 %>% 
+  filter(dataR01$ADMINISTERING_IC == "GM") %>%
+  filter(!is.na(dataR01$GENDER_CODE))
+
+# Remove grants that have zero total costs
+library(tidyverse)
+data= data %>% filter (!is.na(data$TOTAL_COST)) # Removed 13,991 grants
+
+# Data Exploration ------------------------------------
+#summary(factor(data$FUNDING_MECHANISM))
+#colnames(data) # 46 columns
+#nrow(data) # 75,731 rows
+#str(data$PI_IDS)
+#sum(is.na(data$PI_IDS))
+#summary(data$FUNDING_MECHANISM)
+#summary(data_gender$GENDER_CODE) # Female 798, Male 2561, Unidentified 66, NA 10
+```
+  
+### EDA - Univariate Analysis   
+  
+I took the number of Support Years as Y variable to plot a bar chat for better visualization of the distribution. As the graph shows, a large percentage of the grants are within the first five years. As the number of the Support Year grows, the less grants there are.  
+This distribution matches what it is in reality. A grant proposal is mainly on a certain topic. At NIH, the project has a certain number of years in terms of its project period. Once the project period is over, the Principal Investigator would need to renew their grant application by competing with other proposals. As such, when a grant is being renewed again and again and spans across decades, it is definitely a highly profound research topic.  
+Note:  
+(1) 'IC' refers to Institute & Center.   
+(2) 'NIGMS' refers to the National Institute of General Medical Sciences.  
+(3) Activity Code 'R01' is a major research grant code.  
+(4) FY2019 refers to Fiscal Year 2019.  
+
+```{r echo=FALSE, fig.height= 2.5, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+df = dataR01GM %>%
+  filter(!is.na(SUPPORT_YEAR)) %>%
+  group_by(SUPPORT_YEAR) %>%
+  summarise(count = n())
+
+p = ggplot (data= df, aes(x= SUPPORT_YEAR, y = count)) + 
+  geom_bar (stat = "identity") +
+  labs (title = "Age of Each Grants (FY 2019)",
+        subtitle = "IC: NIGMS\nActivity Code: R01", 
+        x = "Support Year",
+        y = "# Of Grants",
+        caption = "FY refers to Fiscal Year.\nIC refers to the administoring Institute or Center at NIH.\n Activity Code 'R01' is a major research grant code." ) +
+  theme(legend.position = "none")
+p
+```
+  
+*Figure 1. Distribution of Age of Grants (FY 2019, R01 Research Grants, General Medical Sciences Area)* 
+  
+Next, let's take a look at the skewness and the kurtosis observations of the Support Year value. From the chart, one can easily tell that the observations are not normality distributed, as it does not look like a bell shape. The distribution is left skewed.  
+
+The D'Agostino skewness test is conducted to check if the data has a skewness. The P value of the test is less than the confidence level 0.05 (p < 2.2e-16). So we do not fail to reject the null hypothesis that the data does not have a skewness. In other words, we accept the alternative hypothesis that the data has a skewness.  
+  
+The kurtosis value of the Support Value variable is `r kurtosis(dataR01GM$SUPPORT_YEAR)`, which is larger than 3. If the kurtosis value is greater than 3, then the observation has heavy tails. This matches our eyeball estimation from reading the graph.  
+   
+```{r include=FALSE}
+library(moments)
+agostino.test(dataR01GM$SUPPORT_YEAR)
+```
+  
+### EDA - Bivariate Analysis (Box Plot)   
+   
+After taking a look at the distribution of support years, let's add one more variable to the analysis. I chose Gender as an additional variable.  In the below baox plot, the three different box plots refer to three different gender groups, male, female, and unidentified.  
+Below are the observations from the graph.  
+a. The outliers of Support Year value for the male group is more skewed than other groups.  
+b. The third quartile is larger for the male than for other groups.  
+c. The box is bigger for male than other groups, meaning the number of grants given to male is larger than other groups. This observation can be proved again by the chart in the next section.
+  
+```{r echo=FALSE, fig.height= 3, message=FALSE, warning=FALSE, paged.print=FALSE}
+p2 = ggplot(dataR01GM, aes(x= GENDER_CODE, y = SUPPORT_YEAR)) +
+  geom_boxplot()+
+  labs(title = "The Age of The Grants by Gender (FY2019)",
+       subtitle = "IC: NIGMS\nActivity Code: R01",
+       x = "Gender",
+       y = "Support Year",
+       caption = "U: Unidentified\n(10 NA values)")
+p2
+```
+   
+*Figure 2. Box Plot of Grants' Age Distribution by Gender (FY 2019, R01 Research Grants, General Medical Sciences Area)*   
+   
+### EDA - Bar Plot   
+   
+In this section, a bar plot is created to show the gender difference in how many grants were given to male versus female. In 2019, NIGMS awarded `r nrow(dataR01GM)` grants in R01 activity code. Among them, 2,561 awards were given to male Principal Investigators and 798 awards were granted to female Principal Investigators (66 cases were gender unidentified and 10 null gender values.) In other words, the number of grants awarded to male is greater than to female by `r round((2561-798)/798, digits=2)*100`%. 
+  
+```{r echo=FALSE, fig.height=3.8, message=FALSE, warning=FALSE}
+df2 = dataR01GM %>%
+  filter(!is.na(SUPPORT_YEAR)) %>%
+  group_by(GENDER_CODE) %>%
+  summarise(count = n())
+
+p3 = ggplot (data=df2, aes(x= GENDER_CODE, y = count, fill = GENDER_CODE)) + 
+  geom_bar (stat = "identity") +
+  scale_fill_manual(values=c("#CC6666", "#339999", "gray")) +
+  labs (title = "Number of Grants Received by Gender (FY2019)",
+        subtitle = "IC: NIGMS \nActivity Code: R01", 
+        x = "Gender",
+        y = "# of Grants",
+        caption = "Gender group 'U': Unidentified.\n(10 NA values)" )+ 
+  geom_text(aes(label=count), vjust=-0.3, size=3.5)+
+  theme(legend.position = "none")
+p3
+```
+   
+*Figure 3. Bar Plot of Grants Received by Different Gender (FY 2019, R01 Research Grants, General Medical Sciences Area)*  
+   
+### EDA - Multivariate Analysis   
+   
+In this section, the results from section 1 and section 3 are combined into one graph. A bar plot is created to show the gender difference among different age of grants.  
+  
+One can not only observe that the old the grant is, the less the amount of grants there are, but can also tell that in the first four years, the female participation is higher than all other years.  
+  
+As requested, the legend is added to the chart. The title of the legend and the name of each legends are modified for easier comprehension. In addition, the location of the legend is moved inside of the chart, to the top right corner where there is enough empty space and does not disrupt the visual experience.  
+   
+```{r echo=FALSE, fig.height=2.5, message=FALSE, warning=FALSE}
+df3 = data_gender %>%
+  filter(!is.na(GENDER_CODE)) %>%
+  group_by(SUPPORT_YEAR, GENDER_CODE) %>%
+  summarise(count = n())
+
+p4 = ggplot (data=df3, aes(x= SUPPORT_YEAR, y = count, fill = GENDER_CODE)) + 
+  geom_bar (stat = "identity") +
+  scale_fill_manual(values=c("#CC6666", "#339999", "gray"),
+                    name = "Gender", 
+                    labels = c("Female", "Male", "Unidentified")) +
+  labs (title = "Gender Difference among Different Age of the Grants (FY2019)",
+        subtitle = "IC: NIGMS \nActivity Code: R01", 
+        x = "Support Year (Age of the Grant)",
+        y = "# Of Grants",
+        caption = "(10 NA Values)") + 
+  theme(legend.position = c(0.9, 0.7)) 
+p4
+```
+*Figure 4. Gender Differences among Different Age of the Grants (FY 2019, R01 Research Grants, General Medical Sciences Area)*   
+   
+### Simple Effect Test  
+  
+A simple effect test - Independent T-Test (Two Sample T-Test) was conducted to examine the difference of Total Grant Cost between gender. The result showed that, equal variances assumed, there is no significant difference between male (M = 334674.6, SD = 123503.3)  and female (M = 326676.4, SD = 116503.5), t(3357) = 1.62, p = 0.11. 
+  
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+male_cost = data_gender %>%
+  filter(!is.na(data_gender$GENDER_CODE)) %>%
+  filter(data_gender$GENDER_CODE == "M") %>%
+  select(c("TOTAL_COST")) 
+# 2561 observations
+male_cost = as.matrix(male_cost)
+
+female_cost  = data_gender %>%
+  filter(!is.na(data_gender$GENDER_CODE)) %>%
+  filter(data_gender$GENDER_CODE == "F") %>%
+  select(c("TOTAL_COST")) 
+# 798 observations
+female_cost = as.matrix(female_cost)
+
+t.test1 = t.test(male_cost, female_cost, var.equal = TRUE)
+t.test1
+
+sd(male_cost)
+sd(female_cost)
+```
+   
+Another simple effect test - Independent T-Test (Two Sample T-Test) was conducted to examine the difference of Grant Support Year between gender. The result showed that, equal variances assumed, there is significant difference between male (M = 7.02, SD = 8.21)  and female (M = 5.72, SD = 6.21), t(3357) = 4.13, p < .001. 
+   
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+male_year = data_gender %>%
+  filter(!is.na(SUPPORT_YEAR)) %>%
+  filter(data_gender$GENDER_CODE == "M") %>%
+  select(c("SUPPORT_YEAR")) 
+# 2561 observations
+
+male_year = as.matrix (male_year)  
+
+female_year  = data_gender %>%
+  filter(!is.na(SUPPORT_YEAR)) %>%
+  filter(data_gender$GENDER_CODE == "F") %>%
+  select(c("SUPPORT_YEAR")) 
+# 798 observations
+
+female_year = as.matrix (female_year)
+
+t.test2 = t.test(male_year, female_year, var.equal = TRUE)
+t.test2
+
+sd(male_year)
+sd(female_year)
+```
+
+## Analysis 2 - Factor Analysis  
+  
+```{r message=FALSE, include=FALSE}
+library(corpora)
+library(GPArotation)
+library(psych)
+library(Hmisc)
+library(car)
+library(tidyverse)
+```
+  
+```{r include = FALSE}
+# Import Data 
+library(readr)
+data <- read_csv("RePORTER_PRJ_C_FY2019.csv", 
+                 col_types = cols(ACTIVITY = col_character(), 
+                                  ADMINISTERING_IC = col_character(), 
+                                  APPLICATION_TYPE = col_integer(), 
+                                  ARRA_FUNDED = col_logical(), AWARD_NOTICE_DATE = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_END = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_START = col_date(format = "%m/%d/%Y"), 
+                                  CFDA_CODE = col_integer(), DIRECT_COST_AMT = col_number(), 
+                                  FY = col_integer(), INDIRECT_COST_AMT = col_number(), 
+                                  PROJECT_END = col_date(format = "%m/%d/%Y"), 
+                                  PROJECT_START = col_date(format = "%m/%d/%Y"), 
+                                  SUFFIX = col_character(), SUPPORT_YEAR = col_integer(), 
+                                  TOTAL_COST = col_number(), TOTAL_COST_SUB_PROJECT = col_number()))
+
+# Data Cleaning =====
+
+# Remove grants that don't have PI assigned to it.
+library(dplyr)
+data = data %>% filter(data$FUNDING_MECHANISM != "INTRAMURAL RESEARCH") #To exclude 3065 Intramural Research grants
+data = data %>% filter(data$FUNDING_MECHANISM != "SBIR/STTR Contracts") #To exclude 94 SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "Non SBIR/STTR Contracts") #To exclude 1,239 non SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "CONSTRUCTION GRANTS") #To exclude 14 Construction Grants
+data = data %>% filter(data$FUNDING_MECHANISM != "INTERAGENCY AGREEMENTS") #To exclude 123 Interagency Agreements
+
+# Remove grants that have zero total costs
+data= data %>% filter (!is.na(data$TOTAL_COST)) # Removed 13,991 grants
+
+# Select R01 GM grants only
+dataR01 = data %>% filter(data$ACTIVITY == 'R01')
+dataR01GM = dataR01 %>% filter(dataR01$ADMINISTERING_IC == "GM") 
+
+# Import Data that indicates gender info
+library(readr)
+genderdata <- read_csv("genderdata.csv")
+# Remove extra columns from genderdata
+genderdata = select (genderdata, -c("PERSON_ID",
+                                    "ROLE_PERSON_ID",
+                                    "FIRST_NAME",
+                                    "MI_NAME",
+                                    "LAST_NAME"))
+#View(genderdata)
+
+# Combine two datasets together
+data_gender = merge(dataR01GM, genderdata, by.x = "APPLICATION_ID", by.y = "APPL_ID")
+#View(data_gender)
+
+# Data Manipulation -----------------------------------
+
+# Remove 10 rows with NA Gender Code
+#summary(data_gender$GENDER_CODE) # 10 rows with NA Gender Code
+data_gender = data_gender %>% filter(!is.na(data_gender$GENDER_CODE))
+
+# Factorize Data =====
+
+data_gender$ADMINISTERING_IC = as.factor(data_gender$ADMINISTERING_IC)
+#summary(data_gender$ADMINISTERING_IC) #Only GM
+data_gender$APPLICATION_TYPE = as.factor(data_gender$APPLICATION_TYPE) #summary(data_gender$APPLICATION_TYPE)  #Type 1,2,3,5,6,7,9
+data_gender$ACTIVITY = as.factor(data_gender$ACTIVITY)
+#summary(data_gender$ACTIVITY) #Only R01
+
+data_gender$GENDER_CODE = as.factor(data_gender$GENDER_CODE)
+#summary(data_gender$GENDER_CODE)
+
+#summary(data_gender$ARRA_FUNDED) #All NA
+#Remove ARRA_FUNDED Column
+data_gender = select (data_gender, -c("ARRA_FUNDED"))
+
+data_gender$CFDA_CODE = as.factor(data_gender$CFDA_CODE)
+#summary(data_gender$CFDA_CODE) # code 310, 663, 859
+
+data_gender$ED_INST_TYPE = as.factor(data_gender$ED_INST_TYPE)
+#summary(data_gender$ED_INST_TYPE)
+
+data_gender$FOA_NUMBER = as.factor(data_gender$FOA_NUMBER)
+#summary(data_gender$FOA_NUMBER) # zero NA values
+
+data_gender$FUNDING_ICs = as.factor(data_gender$FUNDING_ICs) #Not a useful variable #Consider to remove the column
+#summary(data_gender$FUNDING_ICs) 
+
+data_gender$FUNDING_MECHANISM = as.factor(data_gender$FUNDING_MECHANISM)
+#summary(data_gender$FUNDING_MECHANISM) #Only Non-SBIR/STTR RPGs
+
+data_gender$FY = as.factor(data_gender$FY)
+#summary(data_gender$FY)
+
+data_gender$IC_NAME = as.factor(data_gender$IC_NAME)
+#summary(data_gender$IC_NAME) # Only NATIONAL INSTITUTE OF GENERAL MEDICAL SCIENCES
+
+#summary(data_gender$NIH_SPENDING_CATS) # All NA values
+#Remove NIH_SPENDING_CATS Column
+data_gender = select (data_gender, -c("NIH_SPENDING_CATS")) 
+
+data_gender$ORG_CITY = as.factor(data_gender$ORG_CITY)
+#summary(data_gender$ORG_CITY)
+
+data_gender$ORG_COUNTRY = as.factor(data_gender$ORG_COUNTRY)
+#summary(data_gender$ORG_COUNTRY) #USA and Canada
+
+data_gender$ORG_DEPT = as.factor(data_gender$ORG_DEPT)
+#summary(data_gender$ORG_DEPT) #373 NA values
+
+data_gender$ORG_DISTRICT = as.factor(data_gender$ORG_DISTRICT)
+#summary(data_gender$ORG_DISTRICT) # 1 NA value
+
+data_gender$ORG_DUNS = as.factor(data_gender$ORG_DUNS)
+
+data_gender$ORG_FIPS = as.factor(data_gender$ORG_FIPS)
+#summary(data_gender$ORG_FIPS) #Only US (USA) and CA (Canada)
+
+data_gender$ORG_IPF_CODE = as.factor(data_gender$ORG_IPF_CODE)
+data_gender$ORG_NAME = as.factor(data_gender$ORG_NAME)
+
+data_gender$ORG_STATE = as.factor(data_gender$ORG_STATE)
+#summary(data_gender$ORG_STATE)
+
+data_gender$ORG_ZIPCODE = as.factor(data_gender$ORG_ZIPCODE)
+
+#summary(data_gender$PHR) # All character values
+
+data_gender$PI_IDS = as.factor(data_gender$PI_IDS)
+
+data_gender$PI_NAMEs = as.factor(data_gender$PI_NAMEs)
+data_gender$PROGRAM_OFFICER_NAME = as.factor(data_gender$PROGRAM_OFFICER_NAME)
+
+data_gender$SERIAL_NUMBER = as.factor(data_gender$SERIAL_NUMBER)
+data_gender$STUDY_SECTION = as.factor(data_gender$STUDY_SECTION)
+data_gender$STUDY_SECTION_NAME = as.factor(data_gender$STUDY_SECTION_NAME)
+
+#summary(data_gender$SUBPROJECT_ID) #All NA Values
+# Remove SUBPROJECT_ID column
+data_gender = select (data_gender, -c("SUBPROJECT_ID")) 
+
+data_gender$SUFFIX = as.factor(data_gender$SUFFIX)
+#summary(data_gender$SUFFIX) #A1, A1S1, S1, S2, and NAs
+
+#summary(data_gender$SUPPORT_YEAR)
+
+
+# How to deal with Unidentified gender?
+# For now, I am going to remove all grants with PI in Unidentified gender. 
+library(dplyr)
+data_gender = data_gender %>% filter(data_gender$GENDER_CODE != "U")
+# summary(data_gender$GENDER_CODE)
+```
+  
+```{r include = FALSE}
+# Eliminate unwanted variables
+data_mini = data_gender %>% select (DIRECT_COST_AMT, TOTAL_COST, APPLICATION_TYPE, GENDER_CODE)
+
+library(plyr)
+data_mini$GENDER_CODE = revalue(data_mini$GENDER_CODE, c("M" = 1))
+data_mini$GENDER_CODE = revalue(data_mini$GENDER_CODE, c("F" = 0))
+data_mini$GENDER_CODE = as.numeric(data_mini$GENDER_CODE)
+#is.numeric(data_mini$GENDER_CODE)
+
+dummy.application_type = dummy.code(data_mini$APPLICATION_TYPE)
+data_mini = data.frame(data_mini, dummy.application_type)
+data_mini = data_mini %>% select (-c(APPLICATION_TYPE))
+
+#dummy.state = dummy.code (data_mini$ORG_STATE)
+#data_mini = data.frame(data_mini, dummy.state)
+#data_mini = data_mini %>% select (-c(ORG_STATE))
+
+```
+   
+In this section, a Factor Analysis was conducted. Firstly, a correlation matrix is created to examine the correlation between each variables. The matrix is placed in Appendix B. Correlatin Matrix.   
+
+- "Direct_Cost_Amt" variable and "Total_Cost" variable are highly correlated. This conclusion is intuitive as the higher the Direct Cost is, the higher th Total Cost would become (Total Cost = Direct Cost + Indirect Cost).  
+- "Total_Cost" is highly correlated to "X3" (Type 3 Application Type).  
+- "X1" (Application Type 1) is highly correlated to "X5" (Application Type 5). This does not apply in the real world as one grant can only be flagged as one type of application type.  
+- "X3" (Application Type 3) is highly correlated to "X5" (Application Type 5). Similar to the previous point, this does not apply in the real world as one grant can only be flagged as one type of application type.  
+- "X2" (Application Type 2) is highly correlated to "X5" (Application Type 5). Similar to the previous point, this does not apply in the real world as one grant can only be flagged as one type of application type.  
+  
+```{r message=FALSE, warning=FALSE, include=FALSE}
+#datamatrix = cor(data_mini)
+library(corrplot)
+#corrplot(datamatrix)
+
+res2 = rcorr(as.matrix(data_mini), type = "pearson")
+#res2$r
+#res2$P
+#corrplot(res2$r, type = "upper", order = "hclust", p.mat = res2$P, sig.level = 0.01, insig = "blank") # Appendix B
+```
+  
+Next, the Kaiser-Meyer-Olkin (KMO) Analysis was conducted to test measures of the suitability of data for factor analysis. KMO value ranges between 0 and 1. As the below result shows, the KMO value for each variable is 0.5 (overall MSA value is 0.5). The rule of thumb is that when the KMO value is under 0.6, the dataset is considered inadequate for Factor Analysis. As such, this dataset is not suitable for Factor Analysis. Given that, the autor proceeded with the next steps in order to complete the requirement of the assignment.  
+   
+```{r echo = FALSE, message=  FALSE, error = FALSE}
+data_fa = data_mini %>% select(-c("GENDER_CODE")) # Remove Dependent Variable
+datamatrix = cor(data_fa)
+# KMO(r=datamatrix)
+```
+   
+Following up, eigen values were calculated in order to plot eigen values in a scree plot and further help determining number of factors. The eigen value for each variable is shown as below. The biggest three numbers are 8.2, 5.54, and 5.36. Next, the value jumps to 2.67. As such, I determine the number of factors would be three.  
+  
+```{r echo = FALSE, message=  FALSE}
+ev = eigen(cor(data_fa))
+#ev$values
+```
+  
+Next step, Factor Analysis was ran through factanal() syntax. The results were interpretated in terms of the major loadings on each factor. The structors were presented as a graphic of loadings. See below graph. 
+  
+```{r echo = FALSE, message = FALSE, warning = FALSE, error = FALSE}
+#fit1 = factanal(data_fa, factors = 3, scores = c("regression"), rotation = "varimax")
+#print(fit1)
+
+fa_var = fa(r=data_fa, 
+            nfactors = 3,
+            rotate = "varimax",
+            fm = "pa")
+#fa.diagram(fa_var)
+```
+  
+Subsequently, regression analysis was conducted again using three factors. The summary of the regression is shown as below. Only the intercept is significant and no variables are significant. The p value is 0.7813. The Adjusted R-squared value is -0.0009616.  
+   
+Y (Gender Code) = 1.936 + 
+1.225e-07*times DIRECT_COST_AMT + 
+4.918e-08*TOTAL_COST + 
+-2.170e-01*X5 + 
+-2.335e-01*X1 + 
+-2.028e-01*X3 +    
+-2.132e-01*X2 +  
+-2.488e-01*X7 +
+-2.319e-01*X6  
+```{r message=FALSE, include=FALSE}
+#head(fa_var$scores)
+regdata = cbind (data_mini[9], fa_var$scores)
+names(regdata) = c ("F1", "F2", "F3", "F4")
+model1= lm (GENDER_CODE ~., data_mini)
+## summary(model1)
+```
+  
+Exploratory Factor Analysis, as commonly accepted, is a methodology which main purpose is to explore the underlying structure among the variables in the dataset. As there are no meaningful factors that can be extracted from the dataset (p value is not significant), no data summarization or data reduction was performed. 
+  
+## Analysis 3 - Cluster Analysis  
+  
+```{r cluster, message=FALSE, warning=FALSE, include=FALSE}
+# Eliminate unwanted variables
+#data_mini = data_gender %>% select (APPLICATION_TYPE, AWARD_NOTICE_DATE, BUDGET_START, BUDGET_END, CFDA_CODE,  FOA_NUMBER, ORG_CITY, ORG_DEPT, ORG_DISTRICT, ORG_NAME, ORG_STATE, ORG_ZIPCODE, PROJECT_START, PROJECT_END, STUDY_SECTION, SUPPORT_YEAR, TOTAL_COST, GENDER_CODE)
+
+data_mini = data_gender %>% select (SUPPORT_YEAR, TOTAL_COST)
+
+# Remove missing values
+data_mini = na.omit(data_mini) # There are no na values
+
+# Scale numeric value
+data_mini = scale(data_mini)
+
+#library(plyr)
+#data_mini$GENDER_CODE = revalue(data_mini$GENDER_CODE, c("M" = 1))
+#data_mini$GENDER_CODE = revalue(data_mini$GENDER_CODE, c("F" = 0))
+#data_mini$GENDER_CODE = as.numeric(data_mini$GENDER_CODE)
+#is.numeric(data_mini$GENDER_CODE)
+
+#dummy.application_type = dummy.code(data_mini$APPLICATION_TYPE)
+#data_mini = data.frame(data_mini, dummy.application_type)
+#data_mini = data_mini %>% select (-c(APPLICATION_TYPE))
+
+#dummy.state = dummy.code (data_mini$ORG_STATE)
+#data_mini = data.frame(data_mini, dummy.state)
+#data_mini = data_mini %>% select (-c(ORG_STATE))
+```
+
+To perform Cluster Analysis in R, the following steps have been performed to prepare the data.  
+- Any missing values in the data have been removed.  
+  
+- The data have been standardized to make variables comparable. In this case, I used scale() function to scale the dataset.  
+
+- Since most of the variables in the dataset is not numeric, it limits the available amount of variables that can be filtered out for Cluster Analysis. There are two variables selected for running the analysis: SUPPORT_YEAR, TOTAL_COST.  
+  
+### Cluster Analysis Step 1. Determine Optimal Clusters   
+  
+I used Within-cluster Sum of Square (wss) method to find the optimal number of clusters. As the below graph shows, the line points out number four is the optimal amount of cluster. Therefore, it is determined that the optimal number of clusters is two.  
+  
+```{r cluster2, message = FALSE, echo = FALSE, fig.width= 4, fig.height = 2}
+#distance = get_dist(data_mini)
+#fviz_dist(distance, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+
+# Elbow Method
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering algorithms & visualization
+fviz_nbclust(data_mini, kmeans, method = "wss") 
+
+# Average Silhouette Method
+#fviz_nbclust(data_mini, FUN = hcut, method = "silhouette")
+
+# Gap Statistic Method
+#gap_stat <- clusGap(data_mini, FUN = kmeans, nstart = 25,
+#                    K.max = 10, B = 50)
+#fviz_gap_stat(gap_stat)
+```
+  
+*Figure 5. Optimal Number of Clusters - Within-cluster Sum of Square (wss) Method*  
+  
+I used "Average Silhouette Method" to find the optimal number of clusters as well. As the below graph shows, the elbow bends at number two. Therefore, it is determined that the optimal number of clusters is two. In sum, the optimal number of clusters determined by "Within-cluster Sum of Square (wss) Method" and "Average Silhouette Method" is the same.  
+   
+```{r cluster3, message = FALSE, echo = FALSE, fig.width= 4, fig.height = 2}
+# Average Silhouette Method
+fviz_nbclust(data_mini, FUN = hcut, method = "silhouette")
+```
+  
+*Figure 6. Optimal Number of Clusters - Average Silhouette Method* 
+
+
+### Cluster Analysis Step 2. K-Means Cluster Analysis  
+  
+Next, I used K-Means Clustering technique to perform unsupervised machine learning. I partitioned the dataset into a set of 2 groups, as suggested by the both results of "Within-cluster Sum of Square (wss)" and "Average Silhouette" methods. 
+  
+The result is presented in a graph below. There are two different groups/clusters represented by different colors, coral red color at the left bottom corner and turquoise color at the rest of the area. In this graph, the bottom left corner, indicated by coral red color, is low support year and low total cost. The rest of the data, indicated by turquoise color, represents longer support year and larger total cost. 
+
+```{r cluster4, message = FALSE, echo = FALSE, fig.width= 4, fig.height = 2}
+k2 = kmeans(data_mini, centers = 2, nstart = 25)
+# str(k4)
+fviz_cluster(k2, data = data_mini)
+```
+  
+*Figure 7. Cluster Plot (Before Outlier Removal)* 
+  
+  The plot shows that one observation on the top left corner appears to be an outlier (#2325) as it is far from the main clusters of two groups. As a next step, removal of the outlier (#2325) was performed and a second model was created and plotted. See the below graph for a new cluster plot after outlier removal. 
+  
+  There remains two different groups/clusters represented by different colors, coral red color at the left bottom corner and turquoise color at the rest of the area. In this new graph, the area represented by turquoise color has shunk. The new plots shows that the two groups can roughly be seperated by the length of support year, rather than the grant cost amount. A grant with long history (large support year) can be assigned large grant money (high total cost) or small grant money (low total cost). 
+
+```{r cluster5, message = FALSE, echo = FALSE, fig.width= 4, fig.height = 2}
+
+data_mini_minus1 = data_mini [-c(2325),]
+
+# Elbow Method
+#library(cluster)    # clustering algorithms
+#library(factoextra) # clustering algorithms & visualization
+#fviz_nbclust(data_mini_minus1, FUN = hcut, method = "silhouette")
+
+k2_minus1 = kmeans(data_mini_minus1, centers = 2, nstart = 25)
+# str(k4)
+fviz_cluster(k2_minus1, data = data_mini_minus1)
+  
+```
+  
+*Figure 8. Cluster Plot (After Outlier Removal)* 
+
+Next, I created two other parts, visualizing the same chart but with different number of clusters (three and four clusters, in addition to only two clusters) and put all three charts together. The congragated cluster plots are placed in the appendix section (Appendix B. Cluster Plots - K = 2, 3, 4).  
+  
+In the k = 3 graph, it appears that the division is not refined enough. In the k = 4 graph, it seems that the two small groups (purple and green areas) are very close to each other and even overlap.  
+  
+From the charts of k = 3 and k = 4, several observations are summarized as below.  
+- From the charts, it clearly indicates that there is a grant with very high total costs in the very early support year, which can be considered as an outlier.  
+- There is no clear dinstinction of two different clusters, as two cluster are tightly touching each other.  
+  
+### Cluster Analysis Step 3. Hierarchical Analysis   
+  
+After conducting the first K-Means Cluster analysis, next, another method of clustering analysis - Hierarchical Analysis - was conducted. There are two different types of Hierarchical Analysis: Agglomeratie clustering (AGES) and Divisive hierarchical clustering (DIANA). Both techniques are performed and which results are shown below.  
+  
+Firstly, a Cluster Dengrogram using euclidean method was created. The dengrogram graph is placed at Appendix C. - Cluster Dengrogram - Euclidean Method.  
+  
+```{r cluster6, message = FALSE, echo = FALSE, eval = FALSE}
+library(tidyverse)  # data manipulation
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering visualization
+library(dendextend) # for comparing two dendrograms
+
+#########################################
+# Agglomerative Hierarchical Clustering #
+#########################################
+
+# Dissimilarity matrix
+d <- dist(data_mini, method = "euclidean")
+
+# Hierarchical clustering using Complete Linkage
+hc1 <- hclust(d, method = "complete")
+
+# Plot the obtained dendrogram
+plot(hc1, cex = 0.6, hang = -1)
+```
+  
+#### Agglomerative Hierarchical Clustering (AGNES)  
+  
+Next, Agglomerative Hierarchical Clustering (AGNES) method was used to plot a second cluster dendrogram. The dengrogram graph is placed at Appendix D. - Cluster Dengrogram - Agglomerative Hierarchical Clustering (AGNES) Method. Comparing to the previous dendrogram, AGNES dendrogram is not as crowded for this dataset. The clusters from level 5 to level 6 are readable in AGNES dendrogram, comparing to the previous euclean method , it is hard to read level 5 to level 6 for some branches.  
+  
+```{r cluster7, message = FALSE, echo = FALSE, eval = FALSE}
+#########################################################
+hc3 <- agnes(data_mini, method = "ward") # Takes time to run
+pltree(hc3, cex = 0.6, hang = -1, main = "Dendrogram of agnes")  
+```
+
+#### Divisive Hierarchical Clustering (DIANA) Method   
+  
+Next, Divisive Hierarchical Clustering (DIANA) Method was conducted to plot the dendrogram. The dengrogram graph is placed at Appendix E. - Cluster Dengrogram - Divisive Hierarchical Clustering (DIANA) Method. The first main difference between AGNES and DIANA dengrograms is that the first branch under DIANA method, the data is divided into one big group and one small group; wheras, under the AGNES method, the size difference of the second branches is not as big. 
+  
+```{r cluster8, message = FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+####################################
+# Divisive Hierarchical Clustering #
+####################################
+
+# compute divisive hierarchical clustering
+hc4 <- diana(data_mini) # Takes time to run
+
+# Divise coefficient; amount of clustering structure found
+# hc4$dc 
+## [1] 0.9984313
+
+# plot dendrogram
+pltree(hc4, cex = 0.6, hang = -1, main = "Dendrogram of DIANA Method")
+```
+  
+Next, a fourth dendrogram with additional border colors was created to identify the location of each clusters. The dengrogram graph is placed at Appendix F. - Cluster Dengrogram - Colored Borders. It is possible to draw the dendrogram with a border around four clusters, indicated by red, green, purple, and light blue colors (from left to right). 
+  
+```{r cluster9, message = FALSE, echo = FALSE, eval = FALSE}
+###################
+# Ward's method
+hc5 <- hclust(d, method = "ward.D2")
+
+# Cut tree into 4 groups
+sub_grp <- cutree(hc5, k = 4)
+
+# Number of members in each cluster
+#table(sub_grp)
+
+data_mini = as.data.frame(data_mini)
+data_mini = data_mini %>% mutate(cluster = sub_grp) 
+
+plot(hc5, cex = 0.6)
+rect.hclust(hc5, k = 4, border = 2:5)
+```
+
+```{r cluster10, include = FALSE}
+# Cut agnes() tree into 2 groups
+#hc_a <- agnes(data_mini, method = "ward") # Takes time to run
+#cutree(as.hclust(hc_a), k = 2)
+
+# Cut diana() tree into 2 groups
+#hc_d <- diana(data_mini) # Takes time to run
+#cutree(as.hclust(hc_d), k = 2)
+
+# Compute distance matrix
+#res.dist <- dist(data_mini, method = "euclidean")
+
+# Compute 2 hierarchical clusterings
+#hc1 <- hclust(res.dist, method = "complete")
+#hc2 <- hclust(res.dist, method = "ward.D2")
+
+# Create two dendrograms
+#dend1 <- as.dendrogram (hc1)
+#dend2 <- as.dendrogram (hc2)
+
+#install.packages("dendextend")
+#library(dendextend)
+#tanglegram(dend1, dend2) #Takes time to run
+
+```
+  
+### Cluster Analysis Step 4. Summary   
+
+A clustering analysis was conducted to identify potential subgroups of observations within the dataset of NIH Grant Award Result for fiscal year 2019 (Institute and Center: National Institute of General Medical Sciences). The dataset was cleaned so that there are no missing values in order to perform the analysis. In addition, the dataset is scaled in order to measure all the obversations on the same scale.  
+   
+Using Elbow Method and Average Silhouette Method, the optimal amount of cluster is determined to be two. Firstly, K-Means Cluster Analysis was performed using two centers. The cluster dendrograms successfully used two colors to identify the location of two clusters (betweenss 5142; totss 9189). When comparing graphs with different number of centers, such as 2, 3, 4, the graphs show that the center of 2 presents the best clustering effect.   
+Secondly, Hierarchical Cluster Analysis was performed using both Agglomerative Hierarchical Clustering (AGNES) and Divisive Hierarchical Clustering (DIANA) methods. By comparing the dendrogram output of both methods, it is showing that AGNES method presents more readable results as the dendrogram can be interpretated up to level 6.   
+
+## Analysis 4 - Classification Analysis - Decision Tree
+
+As the fourth analysis method, a Classification Analysis - Decision Tree method is used to perform a Machine Learning algorithm that combines both classification and regression tasks. 
+   
+Dependent Variable (Y value) = Gender (Female or Male)   
+  
+Independent Variable (X value) = Total Cost,  Support Year, and Organization Department  
+
+There are two Dicision Trees created using two different techniques. The first Decision Tree is created by setting the tree size (cp = 0.005), see Figure 5. Decision Tree - 1; the second Dicision Tree is built by setting the extra feature to 101 (extra = 101), see Figure 6. Decision Tree - 2. 
+
+The below Decision Tree shows two tree levels, both determined by the Organization Department variable only. On the first level, it does not show any Female grantees; it is not until the second level that the tree shows 1% of the Female grantee population.  
+  
+```{r classification-decision-tree, echo=FALSE, message=FALSE, warning=FALSE, fig.height= 3}
+library("rpart")
+library("rpart.plot")
+
+# build a decision tree (a classification tree) model 
+dt_model<-rpart(GENDER_CODE ~ TOTAL_COST + SUPPORT_YEAR + ORG_DEPT, # model formula
+                data=data_gender,     # dataset
+                method="class",       # select a classification tree model 
+                control=rpart.control(cp=0.005))   # set the tree size 
+
+rpart.plot(dt_model)   # tree plot
+#print(dt_model)        # model results 
+#summary(dt_model)      # model result details 
+```
+  
+*Figure 9. Decision Tree - 1*  
+
+The second Decision Tree is set to extra equals 106, so that the probability of the 2nd class is displayed. However, there are no tree displayed, only a knot is shown. In the total sample, there are 2,561 male Principal Investigators and 798 female Principal Investigators. The Decision Tree can only make meaningful female classification for 1% of the population; it is considered as not a significant algorithm. Summazizing the first and the second Decision Tree figures, the algorithm of Classification - Decision Tree cannot meaningfully create classification of the dataset based on the gender of the grantee population. As such, no further prediction (Confusion Matrix and AOC curve) was created to measure the accuracy performance.  
+  
+```{r classification-decision-tree2, echo=FALSE, fig.height=2, message=FALSE, warning=FALSE}
+dt_model<-rpart(GENDER_CODE ~ TOTAL_COST + SUPPORT_YEAR + ORG_DEPT, # model formula
+                data=data_gender,     # dataset
+                method="class"       # select a classification tree model 
+                )   
+
+rpart.plot(dt_model, extra = 106) 
+
+#dt_pred<-predict(dt_model)  # get the predicted value - class probabilities (default)
+#head(dt_pred)
+
+#dt_pred_class<-predict(dt_model,type="class") # get the predicted value - class membership (default - yes or no)
+#head(dt_pred_class)
+
+#data_gender$dt_pred_prob<-dt_pred[,2]   # create a new column in Default: save the predicted probability of default (yes) from the second column of dt_pred
+#data_gender$dt_pred_class<-ifelse(data_gender$dt_pred_prob>0.5,"Yes","No")  # create a new column in Default: save the predicted class membership (with 50% cut-off)
+
+#head(Default)
+#Default[253,]     # get the information of 253th customer 
+#head(Default[which(Default$dt_pred_prob>0.7),])   # show the customers whose predicted probability is greater than 70%
+#head(Default[order(-Default$dt_pred_prob),])      # sort customers by probability of default in descending order
+```
+
+*Figure 10. Decision Tree - 2* 
+
+## Analysis 5 - Logistic Regression Analyiss  
+  
+The Logistic Regression analysis section is divided into four sections. First step, data normalization and data imputation if needed. Second step, create Logistic Regression model. Third step, describe summary through interpretaiton of model summary and tables. Fourth step, create a second model and compare two models using evaluation methods.  
+  
+### Logistic Regression Step 1. Data Normalization   
+  
+```{r regression, include = FALSE}
+# Import Data 
+library(readr)
+data <- read_csv("RePORTER_PRJ_C_FY2019.csv", 
+                 col_types = cols(ACTIVITY = col_character(), 
+                                  ADMINISTERING_IC = col_character(), 
+                                  APPLICATION_TYPE = col_integer(), 
+                                  ARRA_FUNDED = col_logical(), AWARD_NOTICE_DATE = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_END = col_date(format = "%m/%d/%Y"), 
+                                  BUDGET_START = col_date(format = "%m/%d/%Y"), 
+                                  CFDA_CODE = col_integer(), DIRECT_COST_AMT = col_number(), 
+                                  FY = col_integer(), INDIRECT_COST_AMT = col_number(), 
+                                  PROJECT_END = col_date(format = "%m/%d/%Y"), 
+                                  PROJECT_START = col_date(format = "%m/%d/%Y"), 
+                                  SUFFIX = col_character(), SUPPORT_YEAR = col_integer(), 
+                                  TOTAL_COST = col_number(), TOTAL_COST_SUB_PROJECT = col_number()))
+
+# Data Cleaning =====
+
+# Remove grants that don't have PI assigned to it.
+library(dplyr)
+data = data %>% filter(data$FUNDING_MECHANISM != "INTRAMURAL RESEARCH") #To exclude 3065 Intramural Research grants
+data = data %>% filter(data$FUNDING_MECHANISM != "SBIR/STTR Contracts") #To exclude 94 SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "Non SBIR/STTR Contracts") #To exclude 1,239 non SBIR/STTR contracts
+data = data %>% filter(data$FUNDING_MECHANISM != "CONSTRUCTION GRANTS") #To exclude 14 Construction Grants
+data = data %>% filter(data$FUNDING_MECHANISM != "INTERAGENCY AGREEMENTS") #To exclude 123 Interagency Agreements
+
+# Remove grants that have zero total costs
+data= data %>% filter (!is.na(data$TOTAL_COST)) # Removed 13,991 grants
+
+# Select R01 GM grants only
+dataR01 = data %>% filter(data$ACTIVITY == 'R01')
+dataR01GM = dataR01 %>% filter(dataR01$ADMINISTERING_IC == "GM") 
+
+# Import Data that indicates gender info
+library(readr)
+genderdata <- read_csv("genderdata.csv")
+# Remove extra columns from genderdata
+genderdata = select (genderdata, -c("PERSON_ID",
+                                    "ROLE_PERSON_ID",
+                                    "FIRST_NAME",
+                                    "MI_NAME",
+                                    "LAST_NAME"))
+#View(genderdata)
+
+# Combine two datasets together
+data_gender = merge(dataR01GM, genderdata, by.x = "APPLICATION_ID", by.y = "APPL_ID")
+#View(data_gender)
+
+# Data Manipulation -----------------------------------
+
+# Remove 10 rows with NA Gender Code
+#summary(data_gender$GENDER_CODE) # 10 rows with NA Gender Code
+data_gender = data_gender %>% filter(!is.na(data_gender$GENDER_CODE))
+
+# Factorize Data =====
+
+data_gender$ADMINISTERING_IC = as.factor(data_gender$ADMINISTERING_IC)
+#summary(data_gender$ADMINISTERING_IC) #Only GM
+data_gender$APPLICATION_TYPE = as.factor(data_gender$APPLICATION_TYPE) #summary(data_gender$APPLICATION_TYPE)  #Type 1,2,3,5,6,7,9
+data_gender$ACTIVITY = as.factor(data_gender$ACTIVITY)
+#summary(data_gender$ACTIVITY) #Only R01
+
+data_gender$GENDER_CODE = as.factor(data_gender$GENDER_CODE)
+#summary(data_gender$GENDER_CODE)
+
+#summary(data_gender$ARRA_FUNDED) #All NA
+#Remove ARRA_FUNDED Column
+data_gender = select (data_gender, -c("ARRA_FUNDED"))
+
+data_gender$CFDA_CODE = as.factor(data_gender$CFDA_CODE)
+#summary(data_gender$CFDA_CODE) # code 310, 663, 859
+
+data_gender$ED_INST_TYPE = as.factor(data_gender$ED_INST_TYPE)
+#summary(data_gender$ED_INST_TYPE)
+
+data_gender$FOA_NUMBER = as.factor(data_gender$FOA_NUMBER)
+#summary(data_gender$FOA_NUMBER) # zero NA values
+
+data_gender$FUNDING_ICs = as.factor(data_gender$FUNDING_ICs) #Not a useful variable #Consider to remove the column
+#summary(data_gender$FUNDING_ICs) 
+
+data_gender$FUNDING_MECHANISM = as.factor(data_gender$FUNDING_MECHANISM)
+#summary(data_gender$FUNDING_MECHANISM) #Only Non-SBIR/STTR RPGs
+
+data_gender$FY = as.factor(data_gender$FY)
+#summary(data_gender$FY)
+
+data_gender$IC_NAME = as.factor(data_gender$IC_NAME)
+#summary(data_gender$IC_NAME) # Only NATIONAL INSTITUTE OF GENERAL MEDICAL SCIENCES
+
+#summary(data_gender$NIH_SPENDING_CATS) # All NA values
+#Remove NIH_SPENDING_CATS Column
+data_gender = select (data_gender, -c("NIH_SPENDING_CATS")) 
+
+data_gender$ORG_CITY = as.factor(data_gender$ORG_CITY)
+#summary(data_gender$ORG_CITY)
+
+data_gender$ORG_COUNTRY = as.factor(data_gender$ORG_COUNTRY)
+#summary(data_gender$ORG_COUNTRY) #USA and Canada
+
+data_gender$ORG_DEPT = as.factor(data_gender$ORG_DEPT)
+#summary(data_gender$ORG_DEPT) #373 NA values
+
+data_gender$ORG_DISTRICT = as.factor(data_gender$ORG_DISTRICT)
+#summary(data_gender$ORG_DISTRICT) # 1 NA value
+
+data_gender$ORG_DUNS = as.factor(data_gender$ORG_DUNS)
+
+data_gender$ORG_FIPS = as.factor(data_gender$ORG_FIPS)
+#summary(data_gender$ORG_FIPS) #Only US (USA) and CA (Canada)
+
+data_gender$ORG_IPF_CODE = as.factor(data_gender$ORG_IPF_CODE)
+data_gender$ORG_NAME = as.factor(data_gender$ORG_NAME)
+
+data_gender$ORG_STATE = as.factor(data_gender$ORG_STATE)
+#summary(data_gender$ORG_STATE)
+
+data_gender$ORG_ZIPCODE = as.factor(data_gender$ORG_ZIPCODE)
+
+#summary(data_gender$PHR) # All character values
+
+data_gender$PI_IDS = as.factor(data_gender$PI_IDS)
+
+data_gender$PI_NAMEs = as.factor(data_gender$PI_NAMEs)
+data_gender$PROGRAM_OFFICER_NAME = as.factor(data_gender$PROGRAM_OFFICER_NAME)
+
+data_gender$SERIAL_NUMBER = as.factor(data_gender$SERIAL_NUMBER)
+data_gender$STUDY_SECTION = as.factor(data_gender$STUDY_SECTION)
+data_gender$STUDY_SECTION_NAME = as.factor(data_gender$STUDY_SECTION_NAME)
+
+#summary(data_gender$SUBPROJECT_ID) #All NA Values
+# Remove SUBPROJECT_ID column
+data_gender = select (data_gender, -c("SUBPROJECT_ID")) 
+
+data_gender$SUFFIX = as.factor(data_gender$SUFFIX)
+#summary(data_gender$SUFFIX) #A1, A1S1, S1, S2, and NAs
+
+#summary(data_gender$SUPPORT_YEAR)
+
+# How to deal with Unidentified gender?
+# For now, I am going to remove all grants with PI in Unidentified gender. 
+library(dplyr)
+data_gender = data_gender %>% filter(data_gender$GENDER_CODE != "U")
+# summary(data_gender$GENDER_CODE)
+```
+   
+There are three cost-related variables that are going to be put in the model, including "TOTAL_COST", "DIRECT_COST", and "INDIRECT_COST". Since all these three variables are on the same scale (US dollaors), there are no actions of normalization done on the variables.  
+   
+No imputation methods are implemented. The reasons for that are listed below.
+   
+1. For Gender Code  
+The original gender code are 'M' (Male), 'F' (Female), and 'U' (Unidentified). There are 66 cases that are marked as unidentified gender. There are R packages that can identify the gender of a person by their first name. The author did not utilize these packages to identify and replace the values for several reasons. First, if a person does not identify themselves as male nor female and selected 'U' as their gender type, then there is no need to flag their gender types so that the data can stay true to the reality. Secondly, the 66 unidentified gender cases occupy 2% of the total sample. 2% does not consider to be a significant number. Therefore, the author made a decision to remove all the unidentified data.  
+   
+2. There are no null values for the variables that are being put in the models. Therefore, no imputation was implemented on those variables.  
+  
+### Logistic Regression Step 2. Logistic Regression Model I   
+   
+The dependent variable is the Gender Code, female or male. Since the dependent variable is binary, a Logistic Regression Model is created.  
+   
+Dependent Variable (Y value) = Gender (Female or Male)   
+  
+Independent Variable (X value) = Total Cost, Direct Cost Amount, Indirect Cost Amount, Support Year, Organization Department  
+
+``` {r regression2, echo = FALSE}
+################################
+#      Logistic Regression     # 
+################################
+logit_model <- glm(GENDER_CODE ~ TOTAL_COST + DIRECT_COST_AMT +  INDIRECT_COST_AMT + SUPPORT_YEAR + ORG_DEPT + APPLICATION_TYPE,
+                 family = "binomial", 
+                 data = data_gender)
+```
+  
+### Logistic Regression Step 3.  Model Summary and Interpretation   
+   
+Below is result and the summary of the Logistic Regression Model. The summary of the model is placed in Appendix G. Summary of Logistic Regression Model I.
+  
+We can see that not all coefficients are significant (p value < 0.05). Variables such as *TOTAL_COST*, *DIRECT_COST_AMT*, *INDIRECT_COST_AMT*, and some of the *ORG_DEPT*. There are some variables that are marked as two asterics (significant), such as *SUPPORT_YEAR* and *ORG_DEPTMISCELLANEOUS*. Among the two significant variables, *SUPPORT_YEAR* has the lowest p-value (0.00632), suggesting an association of the length of the grant support year and the gender of the principal investigator.   
+  
+The AIC value of the model is *`r AIC(logit_model)`*. This value will be taken to a comparison with the second model to examine the improvement of the model.  
+
+``` {r regression3, echo = FALSE, eval = FALSE}
+#logit_model
+#AIC(logit_model)
+summary(logit_model)
+```
+  
+Next, ANOVA test is performed on the model to examine the table of deviance. The result of the ANOVA test is as below. The difference between the null deviance and the residual deviance shows how well the model is doing comparing to a null model (a model with only the intercept). Therefore, the gap is the wider the better. Analyzing the below table, we can see the drop in deviance when adding *SUPPORT_YEAR* variable and *ORG_DEPT* variable. The other variable that shows improvement of the model but not as much is *TOTAL_COST* variable.  
+  
+``` {r regression4, echo = FALSE, eval = FALSE}
+anova(logit_model, test= "Chisq")
+```
+  
+Last but not least, McFadden R square index is calculated to examine the fitness of the model. As the below result shows, the McFadden R square value is 2.916594e-02.  
+   
+``` {r regression5, echo = FALSE, eval = FALSE}
+#install.packages("pscl")
+library(pscl)
+pR2(logit_model)
+```
+   
+A major conclusion can be drawn from the model. That is, the older a grant is, the higher chance that the holder of the grant is a male. We are not able to tell what is the gender of the original owner of the grant or the history change in gender because there is no historical data on that. Rather, the gender data is only reflecting the current situation and does not provide longitudinal examinations.  
+  
+``` {r regression6, echo = FALSE, warning = FALSE, error = FALSE, eval = FALSE}
+dataR01GM$GENDER_CODE = as.factor(dataR01GM$GENDER_CODE) 
+# F 798, M 2561, U 66, NA 10
+
+dataR01GM_gendercleaned = dataR01GM %>% 
+  filter(dataR01GM$GENDER_CODE != "U") 
+
+dataR01GM_gendercleaned = dataR01GM_gendercleaned %>%
+  filter(dataR01GM_gendercleaned$GENDER_CODE != "NA") 
+
+# summary(dataR01GM_gendercleaned$GENDER_CODE) 
+#F 798, M 2561
+
+glm <- glm(GENDER_CODE ~ TOTAL_COST + SUPPORT_YEAR,
+                 family = "binomial", 
+                 data = dataR01GM)
+#glm
+#summary(glm)
+```
+  
+### Logistic Regression Step 4.  Model Summary and Interpretation   
+   
+``` {r regression7, include = FALSE, message = FALSE, error = FALSE}
+logit_model2 <- glm(GENDER_CODE ~ SUPPORT_YEAR + ORG_DEPT,
+                 family = "binomial", 
+                 data = data_gender)
+#logit_model2
+AIC(logit_model)
+AIC(logit_model2)
+```
+  
+A second model is created by removing some variables from the equation to see if that would help improving the model. To be specific, variables related to costs (*TOTAL_COST*, *DIRECT_COST_AMT*, *INDIRECT_COST_AMT* variables) are removed, as these variables did not show significance in the first model.  
+  
+Dependent Variable (Y value) = Gender (Female or Male)  
+Independent Variable (X value) = Support Year, Organization Department 
+  
+The summary of the model is shown as below.  
+  
+The significance of *SUPPORT_YEAR* variable has become higher (from two asterisks to three asterisks). *ORG_DEPTCHEMISTRY* variable was orignially not significant but became significant (two asterisks) in the second model. *ORG_DEPTMISCELLANEOUS* variable remains as two asterisks. There are three variables that show one asterisk, that are *ORG_DEPTBIOPHYSICS*, *ORG_DEPTENGINEERING (ALL TYPES)*, and *ORG_DEPTNONE*.   
+  
+The AIC value for the second model is *`r AIC(logit_model2)`*, which is slightly lower than the first model, *`r AIC(logit_model)`*. AIC value is the measure of fit and the analogous metric of adjusted R-squared. Since smaller AIC is preferable, the second model is better than the first model. In other words, the model that log transform the cost-related variables perform better.  
+  
+``` {r regression8, echo = FALSE, eval = FALSE}
+summary(logit_model2)
+```
+  
+Similar to the first procedure, an ANOVA test is performed on the second model as well. Both of the dependent variables show strong significance in predicting the gender of the grant owner.  
+   
+``` {r regression9, echo = FALSE, eval = FALSE}
+anova(logit_model2, test= "Chisq")
+```
+  
+Last but not least, McFadden R square index is calculated to examine the fitness of the model. The McFadden R square value of the second model is 2.879153e-022, comparing to 2.916594e-02 in the first model.  The R square value in the second modele is less than the first one.   
+  
+``` {r regression10, warning = FALSE, message = FALSE, echo = FALSE, eval = FALSE}
+pR2(logit_model2)
+```
+  
+Overall, we can conclude that the second model is less powerful than the first model, judging from its higher AIC value and lower R square value.  
+  
+# Conclusion  
+
+Women are increasingly taking up a large proportion of the General Medical Sciences field. However, NIH funding continued to be awarded to male-dominated Principal Investigator scientist world. This research aimed to examine the Gender Differences in Successful NIH Grant Funding (2019) in General Medical Sciences. The objective was to evaluate the gender differences among the grantees and discuss potential reasons contributing to this phenomenon. The analysis techniques include Exploratory Data Analysis (EDA), Factor Analysis, Classification Analysis - Decision Tree, Cluster Analysis, and Logistic Regression Analysis.  
+  
+In summary, the paper argued that there is no significant difference of Total Grant Amount between genders; however, there is significant difference of total year of support (how old a grant is in year) between genders (t(3357) = 4.13, p < .001). Furtheremore, 'Support Year' is a statistically significant variable to predict the gender of a grant's recipient. Classification Analysis method and Factor Analysis method confronted with limitations in the dataset as there were no meaningful conclusions drawn in each analysis section.  
+  
+Future research should consider the potential effects of gender-biased application review process and further investigate whether the participation rate of reviewers in different gender types affects the application scores.  In addition, time-series analysis across different fiscal years might prove an important area for future research.  
+  
+\newpage
+
+# References
+```{r create_r-references}
+r_refs(file = "r-references.bib")
+```
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
+
+\newpage  
+  
+# Appendix  
+## Appendix A. Data Dictionary  
+
+The information regarding the variable is sourced from @Exporter. 
+
+**Application_Type**:  A one-digit code to identify the type of application funded:  
+1 = New application  
+2 = Competing continuation (also, competing renewal)  
+3 = Application for additional (supplemental) support.  There are two kinds of type 3 competing revisions (which are peer-reviewed and administrative supplements)  
+4 = Competing extension for an R37 award or first non-competing year of a Fast Track SBIR/STTR award  
+5 = Non-competing continuation  
+7 = Change of grantee institution  
+9 = Change of NIH awarding Institute or Division (on a competing continuation)  
+
+**Budget_Start**:  The date when a project’s funding for a particular fiscal year begins.  
+
+**Budget_End**:  The date when a project’s funding for a particular fiscal year ends.  
+
+**FOA_Number**:  The number of the funding opportunity announcement, if any, under which the project application was solicited.  Funding opportunity announcements may be categorized as program announcements, requests for applications, notices of funding availability, solicitations, or other names depending on the agency and type of program. Funding opportunity announcements can be found at Grants.gov/FIND and in the NIH Guide to Grants and Contracts.  
+
+**Org_Name**:  The name of the educational institution, research organization, business, or government agency receiving funding for the grant, contract, cooperative agreement, or intramural project.  
+
+**PI_ID(s)**: A unique identifier for each of the project Principal Investigators. Each PI in the RePORTER database has a unique identifier that is constant from project to project and year to year, but changes may be observed for investigators that have had multiple accounts in the past, particularly for those associated with contracts or sub-projects.  
+
+**PI_Name(s)**:  The name(s) of the Principal Investigator(s) designated by the organization to direct the research project.  
+
+**Project_Start**:  The start date of a project.  For subprojects of a multi-project grant, this is the start date of the parent award.  
+
+**Project_End**:  The current end date of the project, including any future years for which commitments have been made.  For subprojects of a multi-project grant, this is the end date of the parent award.  Upon competitive renewal of a grant, the project end date is extended by the length of the renewal award.  
+
+**Support_Year**:  The year of support for a project, as shown in the full project number.  For example, a project with number 5R01GM0123456-04 is in its fourth year of support.  
+
+**Direct_Cost_Amt**:  Total direct cost funding for a project from all NIH Institute and Centers for a given fiscal year. Costs are available only for NIH awards funded in FY 2012 onward. Direct cost amounts are not available for SBIR/STTR awards.  
+
+**Indirect_Cost_Amt**:  Total indirect cost funding for a project from all NIH Institute and Centers for a given fiscal year. Costs are available only for NIH awards funded in FY 2012 and onward. Indirect cost amounts are not available for SBIR/STTR awards.  
+
+**Total_Cost**:   Total project funding from all NIH Institute and Centers for a given fiscal year. 
+
+## Appendix B. Correlation Matrix  
+  
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#datamatrix = cor(data_mini)
+library(corrplot)
+#corrplot(datamatrix)
+
+res2 = rcorr(as.matrix(data_mini), type = "pearson")
+#res2$r
+#res2$P
+#corrplot(res2$r, type = "upper", order = "hclust", p.mat = res2$P, sig.level = 0.01, insig = "blank")
+```
+  
+## Appendix C. Cluster Plots (K = 2, 3, 4)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+k3_minus1 <- kmeans(data_mini_minus1, centers = 3, nstart = 25)
+k4_minus1 <- kmeans(data_mini_minus1, centers = 4, nstart = 25)
+
+# plots to compare
+p1 <- fviz_cluster(k2_minus1, geom = "point", data = data_mini_minus1) + ggtitle("k = 2")
+p2 <- fviz_cluster(k3_minus1, geom = "point",  data = data_mini_minus1) + ggtitle("k = 3")
+p3 <- fviz_cluster(k4_minus1, geom = "point",  data = data_mini_minus1) + ggtitle("k = 4")
+
+library(gridExtra)
+grid.arrange(p1, p2, p3, nrow = 1)
+```
+
+
+## Appendix C. Cluster Dengrogram - Euclidean Method
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)  # data manipulation
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering visualization
+library(dendextend) # for comparing two dendrograms
+
+#########################################
+# Agglomerative Hierarchical Clustering #
+#########################################
+
+# Dissimilarity matrix
+d <- dist(data_mini, method = "euclidean")
+
+# Hierarchical clustering using Complete Linkage
+hc1 <- hclust(d, method = "complete")
+
+# Plot the obtained dendrogram
+plot(hc1, cex = 0.6, hang = -1)
+```
+
+## Appendix D. - Cluster Dengrogram - Agglomerative Hierarchical Clustering (AGNES) Method  
+  
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#########################################################
+hc3 <- agnes(data_mini, method = "ward") # Takes time to run
+pltree(hc3, cex = 0.6, hang = -1, main = "Cluster Dendrogram of AGNES")  
+```
+  
+## Appendix E. - Cluster Dengrogram - Divisive Hierarchical Clustering (DIANA) Method  
+  
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+####################################
+# Divisive Hierarchical Clustering #
+####################################
+
+# compute divisive hierarchical clustering
+hc4 <- diana(data_mini) # Takes time to run
+
+# Divise coefficient; amount of clustering structure found
+# hc4$dc 
+## [1] 0.9984313
+
+# plot dendrogram
+pltree(hc4, cex = 0.6, hang = -1, main = "Dendrogram of DIANA Method")
+```
+  
+## Appendix F. - Cluster Dengrogram - Colored Borders.  
+  
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+###################
+# Ward's method
+hc5 <- hclust(d, method = "ward.D2")
+
+# Cut tree into 4 groups
+sub_grp <- cutree(hc5, k = 4)
+
+# Number of members in each cluster
+#table(sub_grp)
+
+data_mini = as.data.frame(data_mini)
+data_mini = data_mini %>% mutate(cluster = sub_grp) 
+
+plot(hc5, cex = 0.6)
+rect.hclust(hc5, k = 4, border = 2:5)
+```
+
+## Appendix G. Summary of Logistic Regression Model I  
+  
+``` {r echo=FALSE, message=FALSE, warning=FALSE}
+#logit_model
+#AIC(logit_model)
+summary(logit_model)
+```
+
+
